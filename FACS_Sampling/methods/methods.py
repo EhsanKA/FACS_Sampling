@@ -168,14 +168,14 @@ def proportional_sampling(adata, total_size=100, n_bins=10, power=1.0, seed=1234
     return np.unique(total_indices), total_indices
 
 
-
-def corr_sampling(adata, sample_per_matrix=4, rng=1000, seed=12345):
+def corr_sampling5(adata, sample_per_matrix=4, rng=1000, seed=12345):
+    adata.obs = adata.obs.reset_index()
     np.random.seed(seed)
     all_indices = adata.obs.index.to_numpy().astype(int)
     np.random.shuffle(all_indices)
 
     start_i = 0
-    end_of_range = int(all_indices.shape[0] / 1000 + 1)
+    end_of_range = int(all_indices.shape[0] / rng + 1)
 
     output = []
     for i in range(end_of_range):
@@ -191,5 +191,9 @@ def corr_sampling(adata, sample_per_matrix=4, rng=1000, seed=12345):
         mask = np.multiply(mask1, mask2)
 
         fin_scores = np.multiply(scores, mask).sum(axis=0)
-        output.append(samples[np.argsort(fin_scores)[0:sample_per_matrix]])
-    return np.array(output).reshape(-1)
+        output.extend(samples[np.argsort(fin_scores)[0:sample_per_matrix]])
+
+    output = adata.obs.loc[output]['index'].values
+    adata.obs.index = adata.obs['index']
+    adata.obs = adata.obs.drop(columns="index")
+    return np.array(output)
