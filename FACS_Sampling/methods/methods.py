@@ -118,6 +118,7 @@ def bin_sampleـpercentile_power(adata, total_size=100, power=0.75, n_bins=10, s
                 prob[item] = len(local_indices)
             indices = np.append(indices, np.random.choice(local_indices, prob[item], replace=False))
 
+            # TODO# This couple of lines have to be updated!
             # if len(local_indices) > s_size:
             #     indices = np.append(indices, np.random.choice(local_indices, prob[item], replace=False))
             # elif len(local_indices) > 0:
@@ -168,7 +169,7 @@ def proportional_sampling(adata, total_size=100, n_bins=10, power=1.0, seed=1234
 
 
 
-def matrix_sampling(adata, sample_per_matrix=4, rng=1000, seed=12345):
+def corr_sampling(adata, sample_per_matrix=4, rng=1000, seed=12345):
     np.random.seed(seed)
     all_indices = adata.obs.index.to_numpy().astype(int)
     np.random.shuffle(all_indices)

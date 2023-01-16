@@ -1,3 +1,6 @@
+# data
+FACS_Sampling/datasets/Final_Focal_Tcell_Selected_Patients_All_Cells.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
