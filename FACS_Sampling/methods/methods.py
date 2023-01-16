@@ -168,7 +168,7 @@ def proportional_sampling(adata, total_size=100, n_bins=10, power=1.0, seed=1234
     return np.unique(total_indices), total_indices
 
 
-def corr_sampling5(adata, sample_per_matrix=4, rng=1000, seed=12345):
+def corr_sampling(adata, sample_per_matrix=4, rng=1000, seed=12345):
     adata.obs = adata.obs.reset_index()
     np.random.seed(seed)
     all_indices = adata.obs.index.to_numpy().astype(int)
