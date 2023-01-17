@@ -35,3 +35,30 @@ def create_adata(df, obs_features=None):
     adata = sc.AnnData(X, obs=obs, var=var)
 
     return adata
+
+
+def setting_reference_colors(adata, cluster_key = 'labels', make_plot=True, palette=None):
+
+    adata.obs[label_key] = adata.obs[cluster_key].astype('category')
+    adatas = [adata[adata.obs[cluster_key].isin([clust])] for clust in adata.obs[cluster_key].cat.categories]
+
+    for dat in adatas:
+        if dat.n_obs > 100000:
+            sc.pp.subsample(dat, n_obs=500)
+        elif dat.n_obs > 10000:
+            sc.pp.subsample(dat, n_obs=200)
+        else:
+            sc.pp.subsample(dat, n_obs=50)
+
+    adata_downsampled = adatas[0].concatenate(*adatas[1:])
+
+    sc.pp.neighbors(adata_downsampled, n_neighbors=30)
+    sc.tl.umap(adata_downsampled)
+    if make_plot:
+        sc.pl.umap(adata_downsampled, color=cluster_key)
+
+    down_cat = adata_downsampled.obs[cluster_key].cat.categories
+    down_colors = adata_downsampled.uns[cluster_key+'_colors']
+    dictionary = dict(zip(down_cat, down_colors))
+
+    return dictionary
