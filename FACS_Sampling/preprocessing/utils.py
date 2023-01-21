@@ -62,7 +62,7 @@ def create_adata(df, obs_features=None):
     return adata
 
 
-def setting_reference_colors(adata, cluster_key='labels', make_plot=True, palette='ArchR'):
+def set_reference_colors(adata, cluster_key='labels', make_plot=True, palette='ArchR'):
     adata.obs[cluster_key] = adata.obs[cluster_key].astype('category')
     adatas = [adata[adata.obs[cluster_key].isin([clust])]
               for clust in adata.obs[cluster_key].cat.categories]
