@@ -86,6 +86,7 @@ def set_reference_colors(adata, cluster_key='labels', make_plot=True, palette='A
     else:
         colors = adata_stratified.uns[cluster_key + '_colors']
 
+    adata_stratified.obs[cluster_key] = adata_stratified.obs[cluster_key].astype('category')
     categories = adata_stratified.obs[cluster_key].cat.categories
     dictionary = dict(zip(categories, colors))
 

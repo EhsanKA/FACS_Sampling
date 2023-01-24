@@ -8,7 +8,7 @@ from FACS_Sampling.methods.methods import bin_sample, sample_random, proportiona
 def bootstrap(ref_adata, label_key='labels', rep=5, seed=12345):
     np.random.seed(seed)
 
-    groupped_df = pd.DataFrame(data=None, columns=["count", "Refined_clustering", "batch"])
+    groupped_df = pd.DataFrame(data=None, columns=["count", label_key, "method"])
     for i in range(rep):
         new_seed = np.random.randint(100000)
 
