@@ -14,7 +14,7 @@ def plot_umap(adata, dictionary, celltype_key ='labels'):
     # sc.pl.umap(adata, color=celltype_key)
 
 
-def kde_plot_genes(adata, n_bins=14)
+def kde_plot_genes(adata, n_bins=14):
     for count, gene in enumerate(adata.var_names.values, start=1):
         plt.subplot(6,7,count)
         mini = adata[:, [gene]]
