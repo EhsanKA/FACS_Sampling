@@ -5,21 +5,21 @@ sc.set_figure_params(figsize=(8, 8), fontsize=15, )
 
 ### ArchR color palettes https://rdrr.io/github/GreenleafLab/ArchR/src/R/ColorPalettes.R
 # 20-colors
-color_paletts = {
+COLOR_PALETTS = {
     20: ["#D51F26", "#272E6A", "#208A42", "#89288F", "#F47D2B", "#FEE500", "#8A9FD1", "#C06CAB", "#E6C2DC", "#90D5E4",
          "#89C75F", "#F37B7D", "#9983BD", "#D24B27", "#3BBCA8", "#6E4B9E", "#0C727C","#7E1416", "#D8A767", "#3D3D3D"],
     15:['#371377', '#7700FF','#9E0142', '#FF0080', '#DC494C', "#F88D51", "#FAD510", "#FFFF5F", '#88CFA4', '#238B45',
-        "#02401B", "#0AD7D3", "#046C9A", "#A2A475", 'grey35'],}
+        "#02401B", "#0AD7D3", "#046C9A", "#A2A475", 'grey35'],
+    16: ["#faa818", "#41a30d", "#fbdf72", "#367d7d", "#d33502", "#6ebcbc", "#37526d", "#916848", "#f5b390", "#342739",
+         "#bed678", "#a6d9ee", "#0d74b6", "#60824f", "#725ca5", "#e0598b"],
+    12:[ "#A6CDE2", "#1E78B4", "#74C476", "#34A047", "#F59899", "#E11E26", "#FCBF6E", "#F47E1F", "#CAB2D6","#6A3E98",
+         "#FAF39B", "#B15928"],
+    11:["#1a1334", "#01545a", "#017351", "#03c383", "#aad962", "#fbbf45", "#ef6a32", "#ed0345", "#a12a5e", "#710162",
+        "#3B9AB2"],
+    7:["#2a7185", "#a64027", "#fbdf72", "#60824f", "#9cdff0", "#022336", "#725ca5"]
+}
 
-# todo clean this part
-# # 16-colors
-# bear = c("1" = "#faa818", "2" = "#41a30d", "3" = "#fbdf72", "4" = "#367d7d", "5" = "#d33502", "6" = "#6ebcbc", "7" = "#37526d", "8" = "#916848", "9" = "#f5b390", "10" = "#342739", "11" = "#bed678", "12" = "#a6d9ee", "13" = "#0d74b6", "14" = "#60824f", "15" = "#725ca5", "16" = "#e0598b"),
-# 12-colors
-# paired = c("9" = "#A6CDE2", "1" = "#1E78B4", "3" = "#74C476", "12" = "#34A047", "11" = "#F59899", "2" = "#E11E26", "10" = "#FCBF6E", "4" = "#F47E1F", "5" = "#CAB2D6", "8" = "#6A3E98", "6" = "#FAF39B", "7" = "#B15928"),
-# # 11-colors
-# grove = c("11" = "#1a1334", "9" = "#01545a", "1" = "#017351", "6" = "#03c383", "8" = "#aad962", "2" = "#fbbf45", "10" = "#ef6a32", "3" = "#ed0345", "7" = "#a12a5e", "5" = "#710162", "4" = "#3B9AB2"),
-# # 7-colors
-# summerNight = c("1" = "#2a7185", "2" = "#a64027", "3" = "#fbdf72", "4" = "#60824f", "5" = "#9cdff0", "6" = "#022336", "7" = "#725ca5")
+
 
 
 def read_tcell(
@@ -81,8 +81,8 @@ def set_reference_colors(adata, cluster_key='labels', make_plot=True, palette='A
 
     num_categories = adata.uns["labels_colors"].__len__()
     if palette is 'ArchR':
-        if num_categories in color_paletts.keys():
-            colors = color_paletts[num_categories]
+        if num_categories in COLOR_PALETTS.keys():
+            colors = COLOR_PALETTS[num_categories]
     else:
         colors = adata_stratified.uns[cluster_key + '_colors']
 
@@ -94,3 +94,31 @@ def set_reference_colors(adata, cluster_key='labels', make_plot=True, palette='A
         sc.pl.umap(adata_stratified, color=cluster_key)
 
     return dictionary
+
+from scipy.spatial import cKDTree
+
+def find_mutual_nn(data1, data2, k1, k2):
+    # we consider data1 as train data (sampled data) and data2 as test data (whole data)
+    k_index_1 = cKDTree(data1).query(x=data2, k=k1)[1]
+    k_index_2 = cKDTree(data2).query(x=data1, k=k2)[1]
+    mutual_1 = []
+    mutual_2 = []
+    for index_2 in range(data2.shape[0]):
+        for index_1 in k_index_1[index_2]:
+            if index_2 in k_index_2[index_1]:
+                mutual_1.append(index_1)
+                mutual_2.append(index_2)
+
+    return mutual_1, mutual_2
+
+def clean(mutual_1, mutual_2, train_labels):
+    dictionary = dict()
+    for i in range(len(mutual_2)):
+        if mutual_2[i] not in dictionary.keys():
+            dictionary[mutual_2[i]] = [train_labels[mutual_1[i]]]
+        else:
+            dictionary[mutual_2[i]].append(train_labels[mutual_1[i]])
+
+    return dictionary
+
+
