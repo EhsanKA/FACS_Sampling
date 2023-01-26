@@ -14,7 +14,8 @@ def plot_umap(adata, dictionary, celltype_key ='labels'):
     # sc.pl.umap(adata, color=celltype_key)
 
 
-def kde_plot_genes(adata, n_bins=14):
+def kde_plot_genes(adata, n_bins=14, threshold=0.15):
+    sc.set_figure_params(figsize=(50, 40), fontsize=15)
     for count, gene in enumerate(adata.var_names.values, start=1):
         plt.subplot(6,7,count)
         mini = adata[:, [gene]]
@@ -31,6 +32,8 @@ def kde_plot_genes(adata, n_bins=14):
 
         for i in range(len(measures)):
             plt.axvline(x=measures[i], color='red', linestyle='--')
+
+        plt.axhline(y=threshold, color='b', linestyle='-')
 
         plt.title("{}".format(gene))
     plt.savefig("kde_plots_genes.png")
