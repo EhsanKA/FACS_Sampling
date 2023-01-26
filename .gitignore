@@ -1,5 +1,7 @@
 # data
 FACS_Sampling/datasets/Final_Focal_Tcell_Selected_Patients_All_Cells.csv
+FACS_Sampling/datasets/healty_schayan.h5ad
+FACS_Sampling/datasets/labels.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
