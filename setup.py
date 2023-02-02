@@ -18,14 +18,7 @@ LONG_DESCRIPTION = (HERE / "README.md").read_text()
 LONG_DESC_TYPE = "text/markdown"
 
 INSTALL_REQUIRES = [
-      'numpy',
-      'pandas',
-      'scanpy',
-      'scipy',
-      'seaborn',
-      'scikit-learn',
-      'igraph',
-      'matplotlib'
+
 ]
 
 setup(name=PACKAGE_NAME,
