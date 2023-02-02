@@ -34,7 +34,6 @@ def bootstrap(ref_adata, label_key='labels', rep=5, seed=12345):
     return groupped_df
 
 
-
 ## label transfer
 
 def get_knn_classification_report(index_subset, ref_adata, label_key='labels'):
@@ -74,6 +73,7 @@ def get_mnn_classification_report(index_subset, ref_adata, label_key='labels'):
     df_cr = pd.DataFrame(cr)
     return df_cr, crc
 
+
 def MNN_classifier(train_data, test_data, train_labels, k=100):
     mutual_1, mutual_2 = find_mutual_nn(train_data, test_data, k1=k, k2=k)
     dictionary = clean(mutual_1, mutual_2, train_labels)
@@ -94,7 +94,8 @@ def MNN_classifier(train_data, test_data, train_labels, k=100):
 
     return y_pred
 
-def repeat_classifier(ref_adata, label_key='labels', classifier=get_knn_classification_report(), rep=5, seed=12345):
+
+def repeat_classifier(ref_adata, label_key='labels', classifier=get_knn_classification_report, rep=5, seed=12345):
     np.random.seed(seed)
     output_random = []
     output_fsbs = []

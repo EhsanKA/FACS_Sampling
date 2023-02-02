@@ -5,7 +5,7 @@ import numpy as np
 import seaborn as sns
 
 
-def plot_umap(adata, dictionary, celltype_key ='labels'):
+def change_cmap(adata, dictionary, celltype_key ='labels'):
     sc.pp.neighbors(adata, n_neighbors = 30)
     sc.tl.umap(adata)
     ref_cat = adata.obs[celltype_key].cat.categories

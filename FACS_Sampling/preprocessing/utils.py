@@ -79,7 +79,7 @@ def set_reference_colors(adata, cluster_key='labels', make_plot=True, palette='A
     sc.pp.neighbors(adata_stratified, n_neighbors=30)
     sc.tl.umap(adata_stratified)
 
-    num_categories = adata.uns["labels_colors"].__len__()
+    num_categories = adata.obs[cluster_key].unique().__len__()
     if palette is 'ArchR':
         if num_categories in COLOR_PALETTS.keys():
             colors = COLOR_PALETTS[num_categories]
