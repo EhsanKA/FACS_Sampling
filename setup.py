@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = '0.1.0'
+VERSION = '0.0.0'
 PACKAGE_NAME = 'FACS_Sampling'
 AUTHOR = 'Ehsan Karimiara'
 AUTHOR_EMAIL = 'ehsan.karimiara@mdc-berlin.de'
@@ -22,6 +22,10 @@ INSTALL_REQUIRES = [
       'pandas',
       'scanpy',
       'scipy',
+      'seaborn',
+      'sklearn',
+      'igraph',
+      'matplotlib'
 ]
 
 setup(name=PACKAGE_NAME,
