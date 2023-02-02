@@ -4,4 +4,4 @@ Investigating new strategies on Sampling from Flow Cytometry data with more focu
 To the package locally, only run the `./build_deploy.sh`.
 
 
-### [Identity notebook 1](https://github.com/EhsanKA/FACS_Sampling/blob/main/notebooks/Identity/Schayan_Identity_healthy.ipynb)
+### [Identity notebook 1](https://github.com/EhsanKA/FACS_Sampling/blob/v0.0.0-alpha/notebooks/Identity/Schayan_Identity_healthy.ipynb)
