@@ -23,7 +23,7 @@ INSTALL_REQUIRES = [
       'scanpy',
       'scipy',
       'seaborn',
-      'sklearn',
+      'scikit-learn',
       'igraph',
       'matplotlib'
 ]
