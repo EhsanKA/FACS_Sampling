@@ -167,6 +167,11 @@ def proportional_sampling(adata, total_size=100, n_bins=10, power=1.0, seed=1234
 
     return np.unique(total_indices), total_indices
 
+from scipy.spatial.distance import pdist
+
+from scipy import stats
+from scipy.spatial.distance import pdist, squareform
+
 
 def dist_sampling(adata, sample_per_matrix=4, rng=1000, seed=12345):
     adata.obs = adata.obs.reset_index()
@@ -175,7 +180,10 @@ def dist_sampling(adata, sample_per_matrix=4, rng=1000, seed=12345):
     np.random.shuffle(all_indices)
 
     start_i = 0
-    end_of_range = int(all_indices.shape[0] / rng + 1)
+    if all_indices.shape[0] % rng != 0:
+        end_of_range = int(all_indices.shape[0] / rng + 1)
+    else:
+        end_of_range = int(all_indices.shape[0] / rng)
 
     output = []
     for i in range(end_of_range):
@@ -183,17 +191,21 @@ def dist_sampling(adata, sample_per_matrix=4, rng=1000, seed=12345):
         start_i += rng
 
         x = adata.X[samples,]
-        x = stats.zscore(x, axis=1)
-        scores = np.corrcoef(x)
+        # x = stats.zscore(x, axis=1)
+        dists = squareform(pdist(x, metric='euclidean'))
+        th = np.max(dists)
+        mask1 = dists > th
+        while (mask1.sum(axis=1) > 0).sum() < 5 * sample_per_matrix:
+            th = th / 2
+            mask1 = dists > th
 
-        mask1 = scores < 0.01
-        mask2 = -0.01 < scores
-        mask = np.multiply(mask1, mask2)
+        mask = mask1
 
-        fin_scores = np.multiply(scores, mask).sum(axis=0)
-        output.extend(samples[np.argsort(fin_scores)[0:sample_per_matrix]])
+        fin_scores = np.multiply(dists, mask).sum(axis=0)
+        t = samples[np.argsort(fin_scores)[0:sample_per_matrix]]
+        output.extend(t)
 
     output = adata.obs.loc[output]['index'].values
     adata.obs.index = adata.obs['index']
-    adata.obs = adata.obs.drop(columns="index")
+    del adata.obs['index']
     return np.array(output)
