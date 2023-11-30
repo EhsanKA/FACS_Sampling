@@ -11,9 +11,9 @@ features = ['CD33_aligned', 'HLA-DR_aligned', 'CD19 CD3_aligned',
 import numpy as np
 seed = 235224
 np.random.seed(seed)
-rand_index1 = np.random.choice(data.index.values, 1000000, replace=False)
-df1 = data.iloc[rand_index1].drop(columns=["Unnamed: 0"])
-df1.to_csv("../../FACS_Sampling/datasets/AML_Aligned_non_normalized_1M.csv")
+rand_index2 = np.random.choice(data.index.values, 2000000, replace=False)
+df1 = data.iloc[rand_index2].drop(columns=["Unnamed: 0"])
+df1.to_csv("../../FACS_Sampling/datasets/AML_Aligned_non_normalized_2M.csv")
 
 seed = 235723
 np.random.seed(seed)
