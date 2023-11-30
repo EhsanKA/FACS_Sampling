@@ -1,7 +1,17 @@
+# figures
+notebooks/Identity/kdes
+notebooks/Identity/figures
+notebooks/Tcell/figures
+all_method*
+
+#extra
+*.png
+.*
 # data
 FACS_Sampling/datasets/Final_Focal_Tcell_Selected_Patients_All_Cells.csv
 FACS_Sampling/datasets/healty_schayan.h5ad
 FACS_Sampling/datasets/labels.csv
+FACS_Sampling/datasets/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -12,6 +22,8 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+/.idea
+/FACS_Sampling.egg-info
 .Python
 build/
 develop-eggs/
