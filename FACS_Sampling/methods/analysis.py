@@ -17,7 +17,7 @@ def bootstrap(ref_adata, label_key='labels', rep=5, seed=12345):
 
         ps, _ = bin_sample(ref_adata, n_bins=14, s_size=20, seed=new_seed)
         rs = sample_random(ref_adata, s_size=ps.size, seed=new_seed)
-        prop_s, _ = proportional_sampling(ref_adata, n_bins=14, total_size=150, power=0.01, seed=new_seed)
+        prop_s, _ = dist_sampling(ref_adata, n_bins=14, total_size=150, power=0.01, seed=new_seed)
 
         def automation(samples, method_type='Random'):
             a = ref_adata[samples].obs[label_key].value_counts().to_list()
