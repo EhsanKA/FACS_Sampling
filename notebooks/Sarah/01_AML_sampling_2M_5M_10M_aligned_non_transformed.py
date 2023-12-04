@@ -24,9 +24,6 @@ output_file10 = os.path.join(file_path_env,'datasets', 'AML_data_10M.csv')
 # Read the input file into a pandas DataFrame
 data = pd.read_csv(input_file, low_memory=False)
 
-# Drop the unnecessary column
-data = data.drop(columns=["Unnamed: 0"])
-
 # Set the random seed for reproducibility
 seed = 235224
 np.random.seed(seed)
