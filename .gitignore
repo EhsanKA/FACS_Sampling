@@ -7,6 +7,8 @@ all_method*
 #extra
 *.png
 .*
+*.csv
+
 # data
 FACS_Sampling/datasets/Final_Focal_Tcell_Selected_Patients_All_Cells.csv
 FACS_Sampling/datasets/healty_schayan.h5ad
