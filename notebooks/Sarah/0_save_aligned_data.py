@@ -22,7 +22,7 @@ features = ['cd33_aligned', 'hla_dr_aligned', 'cd19_cd3_aligned', 'cd11b_aligned
 output_file = os.path.join('..', '..', 'FACS_Sampling', 'datasets', 
                            'AML_samples_and_myeloid_aligned_non_normalized.csv')
 
-chunk_size = 300000  # Adjust based on your system's memory capacity
+chunk_size = 50000  # Adjust based on your system's memory capacity
 first_chunk = True
 
 for chunk in pd.read_csv(input_file, chunksize=chunk_size):
@@ -47,3 +47,4 @@ for chunk in pd.read_csv(input_file, chunksize=chunk_size):
 
     end_time = time.time()  # End timer
     print(f"Iteration time: {end_time - start_time} seconds")
+    break  # Remove this line to process the entire file
