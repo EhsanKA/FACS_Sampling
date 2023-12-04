@@ -24,27 +24,27 @@ output_file10 = os.path.join(file_path_env,'datasets', 'AML_data_10M.csv')
 # Read the input file into a pandas DataFrame
 data = pd.read_csv(input_file, low_memory=False)
 
-# Set the random seed for reproducibility
-seed = 235224
-np.random.seed(seed)
+def sample_and_save(data, seed, num_samples, output_file):
+    np.random.seed(seed)
+    rand_index = np.random.choice(data.index.values, num_samples, replace=False)
+    df = data.iloc[rand_index]
 
-# Randomly select 2M rows from the DataFrame
-rand_index2 = np.random.choice(data.index.values, 2000000, replace=False)
-df2 = data.iloc[rand_index2]
+    # Reset the index and keep the old index as a column
+    df.reset_index(inplace=True)
+    df.rename(columns={'index': 'old_index'}, inplace=True)
 
-# Write the selected rows to the output file
-df2.to_csv(output_file2)
+    # Set a new index
+    df.reset_index(inplace=True)
+
+    # Write the selected rows to the output file without writing the index
+    df.to_csv(output_file, index=False)
+    
+# Use the function for 2M rows
+sample_and_save(data, seed=235224, num_samples=2000000, output_file=output_file2)
 
 # Repeat the process for 5M rows
-seed = 235723
-np.random.seed(seed)
-rand_index5 = np.random.choice(data.index.values, 5000000, replace=False)
-df5 = data.iloc[rand_index5]
-df5.to_csv(output_file5)
+sample_and_save(data, seed=235723, num_samples=5000000, output_file=output_file5)
 
 # Repeat the process for 10M rows
-seed = 1646274
-np.random.seed(seed)
-rand_index10 = np.random.choice(data.index.values, 10000000, replace=False)
-df10 = data.iloc[rand_index10]
-df10.to_csv(output_file10)
+sample_and_save(data, seed=1646274, num_samples=10000000, output_file=output_file10)
+
