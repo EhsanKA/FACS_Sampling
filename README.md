@@ -12,3 +12,4 @@ To the package locally, only run the `./build_deploy.sh`.
 ### Benchmark
 [Data set from Super.Cell.Cyto paper](https://zenodo.org/records/8274907)
 [Their paper](https://github.com/phipsonlab/SuperCellCyto)
+[Their Analysis](https://github.com/phipsonlab/SuperCellCyto-analysis/tree/master)
