@@ -24,6 +24,27 @@ output_file10 = os.path.join(file_path_env,'datasets', 'AML_data_10M.csv')
 # Read the input file into a pandas DataFrame
 data = pd.read_csv(input_file, low_memory=False)
 
+# Define a function to normalize the strings in the DataFrame
+def process_dataframe(df):
+    # Identify potential categorical columns (object dtype)
+    categorical_cols = df.select_dtypes(include=['object']).columns
+
+    # Convert potential categorical columns to categorical type
+    for col in categorical_cols:
+        df[col] = df[col].astype('category')
+
+    # Standardize all string columns to snake_case format
+    df.columns = [col.lower().replace(' ', '_').replace('-', '_') for col in df.columns]
+
+    # Convert the values in the columns to snake_case
+    for col in df.columns:
+        if df[col].dtype.name == 'category':
+            df[col] = df[col].apply(lambda x: str(x).lower().replace(' ', '_').replace('-', '_') if pd.notnull(x) else x)
+
+    return df
+
+
+# Define a function to sample the data and save it to a file
 def sample_and_save(data, seed, num_samples, output_file):
     np.random.seed(seed)
     rand_index = np.random.choice(data.index.values, num_samples, replace=False)
@@ -31,6 +52,7 @@ def sample_and_save(data, seed, num_samples, output_file):
 
     # Reset the index and keep the old index as a column
     df.reset_index(inplace=True)
+    df = df.copy()
     df.rename(columns={'index': 'old_index'}, inplace=True)
 
     # Set a new index
@@ -38,7 +60,11 @@ def sample_and_save(data, seed, num_samples, output_file):
 
     # Write the selected rows to the output file without writing the index
     df.to_csv(output_file, index=False)
-    
+
+
+# Process the DataFrame
+data = process_dataframe(data)
+
 # Use the function for 2M rows
 sample_and_save(data, seed=235224, num_samples=2000000, output_file=output_file2)
 
