@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import time
 
 # Environment variable for file path
 file_path_env = os.getenv('MY_FACS_DATA_PATH')
@@ -25,6 +26,8 @@ chunk_size = 500000  # Adjust based on your system's memory capacity
 first_chunk = True
 
 for chunk in pd.read_csv(input_file, chunksize=chunk_size):
+    start_time = time.time()  # Start timer
+
     # Standardize chunk column names
     chunk.columns = [col.lower().replace(' ', '_').replace('-', '_') for col in chunk.columns]
 
@@ -41,3 +44,6 @@ for chunk in pd.read_csv(input_file, chunksize=chunk_size):
         first_chunk = False
     else:
         selected_data.to_csv(output_file, mode='a', index=False, header=False)
+
+    end_time = time.time()  # End timer
+    print(f"Iteration time: {end_time - start_time} seconds")
