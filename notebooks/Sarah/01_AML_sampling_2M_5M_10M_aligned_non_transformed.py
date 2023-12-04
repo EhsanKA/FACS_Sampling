@@ -56,7 +56,7 @@ def sample_and_save(data, seed, num_samples, output_file):
     df.rename(columns={'index': 'old_index'}, inplace=True)
 
     # Set a new index
-    df.reset_index(inplace=True)
+    df.reset_index(drop=True, inplace=True)
 
     # Write the selected rows to the output file without writing the index
     df.to_csv(output_file, index=False)
