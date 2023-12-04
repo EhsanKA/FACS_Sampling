@@ -26,7 +26,7 @@ first_chunk = True
 
 for chunk in pd.read_csv(input_file, chunksize=chunk_size):
     # Standardize chunk column names
-    chunk.columns = [col.lower().replace(' ', '_').replace('-', '_') for col in chunk.columns]˝˝
+    chunk.columns = [col.lower().replace(' ', '_').replace('-', '_') for col in chunk.columns]
 
     # Select only the required features
     if not set(features).issubset(set(chunk.columns)):
