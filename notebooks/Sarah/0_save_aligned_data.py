@@ -17,16 +17,19 @@ features = ['cd33_aligned', 'hla_dr_aligned', 'cd19_cd3_aligned', 'cd11b_aligned
             'cd2_aligned', 'siglec8_aligned', 'cd13_aligned', 'cd45_aligned', 
             'cd141_aligned', 'cd15_aligned', 'cd123_aligned', 'cd11c_aligned', 
             'cd117_aligned', 'cd45ra_aligned', 'cd34_aligned', 'itgb7_aligned', 
-            'cd88_cd89_aligned', 'fcer1a_aligned', 'population']
+            'cd88_cd89_aligned', 'fcer1a_aligned', 'unique_id', 'sex', 'age',
+            'subtype', 'type', 'blastcount', 'survival_sorter', 'run','sample_id',
+            'alignment_mc_aligned', 'flowsom_cluster', 'flowsom_metacluster','population']
 
 output_file = os.path.join(file_path_env,'datasets', 
                            'AML_samples_and_myeloid_aligned_non_normalized.csv')
 
-chunk_size = 50000  # Adjust based on your system's memory capacity
+chunk_size = 500000  # Adjust based on your system's memory capacity
 first_chunk = True
 
+start_time = time.time()  # Start timer
+
 for chunk in pd.read_csv(input_file, chunksize=chunk_size, low_memory=False):
-    start_time = time.time()  # Start timer
 
     # Standardize chunk column names
     chunk.columns = [col.lower().replace(' ', '_').replace('-', '_') for col in chunk.columns]
@@ -44,5 +47,7 @@ for chunk in pd.read_csv(input_file, chunksize=chunk_size, low_memory=False):
         first_chunk = False
     else:
         selected_data.to_csv(output_file, mode='a', index=False, header=False)
-    end_time = time.time()  # End timer
-    print(f"Iteration time: {end_time - start_time} seconds")
+
+
+end_time = time.time()  # End timer
+print(f"Iteration time: {end_time - start_time} seconds")
