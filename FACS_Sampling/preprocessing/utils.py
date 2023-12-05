@@ -49,14 +49,29 @@ def read_tcell(
 
 
 def create_adata(df, obs_features=None):
-    if obs_features is None:
-        obs_features = ["Refined_clustering"]
-    obs = pd.DataFrame()
-    obs[obs_features] = df[obs_features]
-    obs = obs.astype('category')
-    var_names = df.drop(columns=obs_features).columns.values
-    var = pd.DataFrame(index=var_names)
+    """
+    Create an AnnData object from a DataFrame.
+
+    Parameters:
+    df (pd.DataFrame): Input DataFrame.
+    obs_features (list, optional): List of observation features. Defaults to ["Refined_clustering"].
+
+    Returns:
+    sc.AnnData: The created AnnData object.
+    """
+    # Set default observation features if none are provided
+    obs_features = ["Refined_clustering"] if obs_features is None else obs_features
+
+    # Create observation DataFrame
+    obs = df[obs_features].astype('category')
+
+    # Create variable DataFrame
+    var = pd.DataFrame(index=df.drop(columns=obs_features).columns.values)
+
+    # Extract data matrix
     X = df.drop(columns=obs_features).values
+
+    # Create AnnData object
     adata = sc.AnnData(X, obs=obs, var=var)
 
     return adata
