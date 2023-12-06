@@ -1,5 +1,7 @@
 import pandas as pd
 import scanpy as sc
+from scipy.spatial import cKDTree
+
 
 sc.set_figure_params(figsize=(8, 8), fontsize=15, )
 
@@ -109,8 +111,6 @@ def set_reference_colors(adata, cluster_key='labels', make_plot=True, palette='A
         sc.pl.umap(adata_stratified, color=cluster_key)
 
     return dictionary
-
-from scipy.spatial import cKDTree
 
 def find_mutual_nn(data1, data2, k1, k2):
     # we consider data1 as train data (sampled data) and data2 as test data (whole data)
