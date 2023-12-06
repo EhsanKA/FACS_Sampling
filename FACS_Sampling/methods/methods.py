@@ -7,6 +7,7 @@ from numpy import linalg as LA
 def sample_random(adata, s_size=1000, seed=12345):
     np.random.seed(seed)
     rand_index1 = np.random.choice(adata.obs.index, s_size, replace=False)
+    rand_index1 = np.array(list(map(int, rand_index1)))
 
     return rand_index1
 
