@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from FACS_Sampling.methods.methods import bin_sample, sample_random, proportional_sampling, dist_sampling
-from FACS_Sampling.preprocessing.utils import find_mutual_nn, clean
+from FACS_Sampling.utils import find_mutual_nn, clean
 from sklearn import neighbors
 from sklearn.metrics import classification_report
 
