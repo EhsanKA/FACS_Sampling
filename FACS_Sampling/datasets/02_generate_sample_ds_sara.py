@@ -57,6 +57,7 @@ def generate_adata(adata, rep = 20, ref_size=2):
         # dist_s = dist_sampling(adata, sample_per_matrix=30, rng=1000, seed=new_seed)
         output_file1 = os.path.join(file_path_env,'sara_data', 'reps',f"random_adata_{ref_size}_{rep}__{i}.h5ad")
         output_file2 = os.path.join(file_path_env,'sara_data', 'reps',f"fsbs_adata_{ref_size}_{rep}__{i}.h5ad")
+        print(f"fsbs_adata_{ref_size}_{rep}__{i}")
         adata[rs].write(output_file1)
         adata[ps].write(output_file2)
 
