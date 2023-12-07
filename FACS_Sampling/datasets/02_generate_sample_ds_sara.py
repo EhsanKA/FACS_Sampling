@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 import scanpy as sc
-from FACS_Sampeling.methods.method import bin_sample, sample_random, dist_sampling
+from FACS_Sampling.methods.method import bin_sample, sample_random #, dist_sampling
 from FACS_Sampling.utils import create_adata
 
 
