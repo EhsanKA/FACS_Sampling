@@ -23,7 +23,6 @@ def sample_diagonal(adata, s_size=1000, seed=12345):
 
     return rand_index2
 
-
 def bin_sample(adata, s_size=20, n_bins=10, seed=12345):
     np.random.seed(seed)
     total_indices = np.array([])
@@ -31,14 +30,31 @@ def bin_sample(adata, s_size=20, n_bins=10, seed=12345):
         indices = np.array([])
         mini = adata[:, [gene]]
         std = np.std(np.array(mini.X))
+        rng = 12*std
         mean = np.mean(np.array(mini.X))
-
+        
         measures = [-np.inf]
-        var = (n_bins - 2) / 2
-        for i in range(n_bins - 1):
-            measures.append(mean - var * std)
-            var -= 1
+        if n_bins > 2:
+            step = rng/(n_bins-2)
+        else:
+            step = 0
+            
+        for i in range(n_bins//2 -1):
+            measures.append(mean - rng/2 + i*step)
+        
+        measures.append(mean)
+        
+        for i in range(n_bins//2 -1):
+            measures.append(mean + (i+1)*step)
+
         measures.append(np.inf)
+            
+#         measures = [-np.inf]
+#         var = (n_bins - 2) / 2
+#         for i in range(n_bins - 1):
+#             measures.append(mean - var * std)
+#             var -= 1
+#         measures.append(np.inf)
 
         for item in range(len(measures) - 1):
             measure1, measure2 = measures[item], measures[item + 1]
@@ -53,9 +69,10 @@ def bin_sample(adata, s_size=20, n_bins=10, seed=12345):
                 indices = np.append(indices, local_indices)
 
         total_indices = np.append(total_indices, indices)
+        total_indices = np.array(list(map(int, total_indices)))
+
 
     return np.unique(total_indices), total_indices
-
 
 def bin_sampleـpercentile(adata, total_size=100, n_bins=10, seed=12345):
     np.random.seed(seed)
