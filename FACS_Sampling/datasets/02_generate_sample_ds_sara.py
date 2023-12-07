@@ -10,7 +10,7 @@ from FACS_Sampling.utils import create_adata
 file_path_env = os.getenv('MY_FACS_DATA_PATH')
 
 
-def creat_ref_adata(size_=2):
+def create_ref_adata(size_=2):
 
     # Construct the input file path
     input_file2 = os.path.join(file_path_env,'sara_data', f"sara_{size_}M.csv")
