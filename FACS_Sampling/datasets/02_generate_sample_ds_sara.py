@@ -32,7 +32,7 @@ def create_ref_adata(size_=2):
     adata.X = x
 
     # Construct the output file path
-    output_adata_ref = os.path.join(file_path_env,'sara_data', f"adata_ref_sara_{2}M.h5ad")
+    output_adata_ref = os.path.join(file_path_env,'sara_data', f"adata_ref_sara_{size_}M.h5ad")
 
     # Write the AnnData object to a file
     adata.write(output_adata_ref)
