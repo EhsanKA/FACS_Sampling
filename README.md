@@ -9,7 +9,6 @@ To install the package locally, only run the `./build_deploy.sh`.
 ### Examples
 [Notebook 1](https://github.com/EhsanKA/FACS_Sampling/blob/v0.0.1-alpha/notebooks/Identity/Schayan_Identity_healthy.ipynb)
 
-
 [more notebooks](https://github.com/EhsanKA/FACS_Sampling/tree/main/notebooks/sara)
 
 ### Benchmark
