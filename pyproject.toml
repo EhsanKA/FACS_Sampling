@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sparseFlow_benchmarking"
+version = "0.1.0"
+description = "Benchmarking over SOTA sketching methods on flow cytometry and scRNA-seq data focusing on retaining rare cell populations."
+readme = "README.md"
+requires-python = ">=3.10"
+# license = {file = "LICENSE.txt"}
+
+authors = [
+    {name = "Ehsan Karimiara", email = "e.karimiara@gmail.com" }
+    ]
+
+dependencies = []
+
+[tool.setuptools]
+packages = ["sparseFlow_benchmarking"]
